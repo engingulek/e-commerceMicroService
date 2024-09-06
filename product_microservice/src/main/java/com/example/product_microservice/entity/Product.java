@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,11 +25,11 @@ import lombok.Setter;
 public class Product {
      @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name="id")
+    private int id;
 
-    @ElementCollection
-    
-    @Column(name = "image_url")
+
+    @Column(name = "imageurl")
     private List<String> imageUrl;
 
     @Column(name = "name", length = 100)
@@ -38,15 +38,15 @@ public class Product {
     @Column(name = "sub_category_id")
     private Integer subCategoryId;
 
-    @Column(name = "price")
-    private BigDecimal price;
-
     @Column(name = "description")
     private String description;
 
-    @Column(name = "screen_size")
+    @Column(name = "screen_size",precision = 38, scale = 2)
     private BigDecimal screenSize;
 
     @Column(name = "resolution", length = 20)
     private String resolution;
+
+    @OneToMany(mappedBy="product")
+    List<SmartPhone> subProducts;
 }
