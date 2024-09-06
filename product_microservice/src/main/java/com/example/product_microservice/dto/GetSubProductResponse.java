@@ -1,7 +1,7 @@
 package com.example.product_microservice.dto;
 
+
 import java.math.BigDecimal;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,13 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
-public class GetBaseProductResponse {
+public class GetSubProductResponse {
     private int id;
-    private List<String> imageurl;
-    private String name;
-    private int sub_product_id;
     private BigDecimal price;
-    
-   
+
+  
 }
