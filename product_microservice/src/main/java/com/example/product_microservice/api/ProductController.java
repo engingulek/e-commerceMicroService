@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.product_microservice.business.abstracts.ProductService;
 import com.example.product_microservice.dto.GetBaseProductResponse;
-import com.example.product_microservice.dto.GetSmartPhoneResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -22,8 +21,15 @@ public class ProductController {
      @Autowired
     private ProductService productService;
 
+    
+
     @GetMapping("/getSmartPhones")
-    public List<GetBaseProductResponse<GetSmartPhoneResponse>> getAll(){
+    public List<GetBaseProductResponse> getSmartPhonesBaseResponse(){
         return  productService.getSmartPhonesBaseResponse();
+    }
+
+    @GetMapping("/getLaptops")
+    public List<GetBaseProductResponse> getLaptops(){
+        return  productService.getLaptops();
     }
 }

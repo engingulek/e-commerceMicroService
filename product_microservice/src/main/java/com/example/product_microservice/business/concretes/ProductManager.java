@@ -24,31 +24,55 @@ public class ProductManager implements  ProductService {
     private ProductRepository productRepository;
     @Autowired
     private ModelMapperService modelMapperService;
-   
-
     @Override
-    public List<GetBaseProductResponse<GetSmartPhoneResponse>> getSmartPhonesBaseResponse() {
+    public List<GetBaseProductResponse> getSmartPhonesBaseResponse() {
+
         List<Product> products = productRepository.findBySubCategoryId(1);
 
-
-
-
-        return products.stream().map(product -> {
-            
-            @SuppressWarnings("unchecked")
-            GetBaseProductResponse<GetSmartPhoneResponse> getBaseProductResponse = modelMapperService
+        return products.stream().flatMap(product -> {
+             GetBaseProductResponse getBaseProductResponse = modelMapperService
             .forResponse().map(product, GetBaseProductResponse.class);
 
-            // SubCategory -> GetSubCategoryResponse dönüşümü (getter olmadan)
-            List<GetSmartPhoneResponse> getSmartPhoneResponses = product.getSubProducts().stream()
-                    .map(subCategory -> modelMapperService.forResponse().map(subCategory, GetSmartPhoneResponse.class))
-                    .collect(Collectors.toList());
-                    
+            return product.getSmartPhones().stream().map(subProduct -> {
 
-                    getBaseProductResponse.setSubProducts(getSmartPhoneResponses);
+                GetBaseProductResponse newResponse = new GetBaseProductResponse();
+                newResponse.setId(getBaseProductResponse.getId());
+                newResponse.setImageurl(getBaseProductResponse.getImageurl());
+                newResponse.setName(getBaseProductResponse.getName());
 
-            return getBaseProductResponse;
+                GetSmartPhoneResponse getSmartPhoneResponse = modelMapperService.forResponse()
+                .map(subProduct, GetSmartPhoneResponse.class);
+                newResponse.setPrice(getSmartPhoneResponse.getPrice());
+                newResponse.setSub_product_id(getSmartPhoneResponse.getId());
+                return newResponse;
+            });
         }).collect(Collectors.toList());
     }
+
+
+   @Override
+    public List<GetBaseProductResponse> getLaptops() {
+        List<Product> products = productRepository.findBySubCategoryId(2);
+        
+        return products.stream().flatMap(product -> {
+             GetBaseProductResponse getBaseProductResponse = modelMapperService
+            .forResponse().map(product, GetBaseProductResponse.class);
+
+            return product.getLaptops().stream().map(subProduct -> {
+
+                GetBaseProductResponse newResponse = new GetBaseProductResponse();
+                newResponse.setId(getBaseProductResponse.getId());
+                newResponse.setImageurl(getBaseProductResponse.getImageurl());
+                newResponse.setName(getBaseProductResponse.getName());
+
+                GetSmartPhoneResponse getSmartPhoneResponse = modelMapperService.forResponse()
+                .map(subProduct, GetSmartPhoneResponse.class);
+                newResponse.setPrice(getSmartPhoneResponse.getPrice());
+                newResponse.setSub_product_id(getSmartPhoneResponse.getId());
+                return newResponse;
+            });
+        }).collect(Collectors.toList());      
+    }
+
 
 }

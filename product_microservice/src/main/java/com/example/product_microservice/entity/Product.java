@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -21,6 +23,7 @@ import lombok.Setter;
 @Entity
 @Setter
 @AllArgsConstructor
+@Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 @NoArgsConstructor
 public class Product {
      @Id
@@ -48,5 +51,9 @@ public class Product {
     private String resolution;
 
     @OneToMany(mappedBy="product")
-    List<SmartPhone> subProducts;
+    List<SmartPhone> smartPhones;
+    @OneToMany(mappedBy="product")
+    List<Laptop> laptops;
+
+    
 }
