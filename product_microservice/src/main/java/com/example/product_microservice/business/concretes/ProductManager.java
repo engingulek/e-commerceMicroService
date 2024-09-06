@@ -10,7 +10,7 @@ import com.example.product_microservice.business.abstracts.ProductService;
 import com.example.product_microservice.core.mapper.ModelMapperService;
 import com.example.product_microservice.dataAccess.ProductRepository;
 import com.example.product_microservice.dto.GetBaseProductResponse;
-import com.example.product_microservice.dto.GetSmartPhoneResponse;
+import com.example.product_microservice.dto.GetSubProductResponse;
 import com.example.product_microservice.entity.Product;
 
 import lombok.AllArgsConstructor;
@@ -40,10 +40,10 @@ public class ProductManager implements  ProductService {
                 newResponse.setImageurl(getBaseProductResponse.getImageurl());
                 newResponse.setName(getBaseProductResponse.getName());
 
-                GetSmartPhoneResponse getSmartPhoneResponse = modelMapperService.forResponse()
-                .map(subProduct, GetSmartPhoneResponse.class);
-                newResponse.setPrice(getSmartPhoneResponse.getPrice());
-                newResponse.setSub_product_id(getSmartPhoneResponse.getId());
+                GetSubProductResponse getSubProductResponse = modelMapperService.forResponse()
+                .map(subProduct, GetSubProductResponse.class);
+                newResponse.setPrice(getSubProductResponse.getPrice());
+                newResponse.setSub_product_id(getSubProductResponse.getId());
                 return newResponse;
             });
         }).collect(Collectors.toList());
@@ -65,10 +65,10 @@ public class ProductManager implements  ProductService {
                 newResponse.setImageurl(getBaseProductResponse.getImageurl());
                 newResponse.setName(getBaseProductResponse.getName());
 
-                GetSmartPhoneResponse getSmartPhoneResponse = modelMapperService.forResponse()
-                .map(subProduct, GetSmartPhoneResponse.class);
-                newResponse.setPrice(getSmartPhoneResponse.getPrice());
-                newResponse.setSub_product_id(getSmartPhoneResponse.getId());
+                GetSubProductResponse getSubProductResponse = modelMapperService.forResponse()
+                .map(subProduct, GetSubProductResponse.class);
+                newResponse.setPrice(getSubProductResponse.getPrice());
+                newResponse.setSub_product_id(getSubProductResponse.getId());
                 return newResponse;
             });
         }).collect(Collectors.toList());      

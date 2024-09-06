@@ -21,8 +21,6 @@ public class ProductController {
      @Autowired
     private ProductService productService;
 
-    
-
     @GetMapping("/getSmartPhones")
     public List<GetBaseProductResponse> getSmartPhonesBaseResponse(){
         return  productService.getSmartPhonesBaseResponse();

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetSmartPhoneResponse {
+public class GetSubProductResponse {
     private int id;
     private BigDecimal price;
 
