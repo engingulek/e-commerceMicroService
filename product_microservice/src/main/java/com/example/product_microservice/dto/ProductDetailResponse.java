@@ -10,8 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetSmartPhoneDetailResponse {
+public class ProductDetailResponse {
     private int  id;
+    private int product_id;
     private String name;
     private List<String> imageurl;
     private String  description;
