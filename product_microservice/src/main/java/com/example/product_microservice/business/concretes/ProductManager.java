@@ -1,7 +1,9 @@
 package com.example.product_microservice.business.concretes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -93,6 +95,22 @@ public class ProductManager implements  ProductService {
             });
         }).collect(Collectors.toList());      
     }
+
+
+@Override
+public List<GetBaseProductResponse> getAll() {
+    List<GetBaseProductResponse> smartPhoneList = getSmartPhonesBaseResponse();
+    List<GetBaseProductResponse> laptops = getLaptops();
+
+    List<GetBaseProductResponse> lists = new ArrayList<>();
+
+
+
+    List<GetBaseProductResponse> allProduct = Stream.concat(smartPhoneList.stream(), laptops.stream())
+                                          .collect(Collectors.toList());
+ 
+    return  allProduct;
+}
 
 
 }
