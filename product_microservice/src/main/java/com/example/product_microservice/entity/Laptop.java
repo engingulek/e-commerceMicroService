@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,8 +30,7 @@ public class Laptop {
     private int id; 
      @Column(name = "price",precision = 38, scale = 2)
     private BigDecimal price;
-    @Column(name = "memory_size_id")
-    private int memory_size_id;
+  
     @Column(name = "battery_capacity")
     private String battery_capacity;
     @Column(name = "ram_capacity")
@@ -40,5 +40,9 @@ public class Laptop {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+
+    @OneToOne
+    @JoinColumn(name = "memory_size_id")
+    private MemorySize memorySize;
 
 }
