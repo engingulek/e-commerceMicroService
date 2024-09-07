@@ -38,12 +38,21 @@ public class ProductManager implements  ProductService {
                 GetBaseProductResponse newResponse = new GetBaseProductResponse();
                 newResponse.setId(getBaseProductResponse.getId());
                 newResponse.setImageurl(getBaseProductResponse.getImageurl());
-                newResponse.setName(getBaseProductResponse.getName());
+               
 
                 GetSubProductResponse getSubProductResponse = modelMapperService.forResponse()
                 .map(subProduct, GetSubProductResponse.class);
                 newResponse.setPrice(getSubProductResponse.getPrice());
+
                 newResponse.setSub_product_id(getSubProductResponse.getId());
+                String size = getSubProductResponse.getSize()+"GB";
+                if("1000".equals(getSubProductResponse.getSize())){
+                    size = "1TB";
+                }
+                String name =getBaseProductResponse.getName() + " " +size + " " + getSubProductResponse.getColorName();
+                newResponse.setName(name);
+                
+
                 return newResponse;
             });
         }).collect(Collectors.toList());

@@ -13,6 +13,11 @@ import lombok.NoArgsConstructor;
 public class GetSubProductResponse {
     private int id;
     private BigDecimal price;
+    private String colorName;
+    private String size;
+   /* private int memory_size_id;
+    private String size;*/
+    
 
   
 }
