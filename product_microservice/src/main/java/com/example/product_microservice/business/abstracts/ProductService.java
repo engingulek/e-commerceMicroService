@@ -8,5 +8,6 @@ public interface  ProductService {
     List<GetBaseProductResponse> getAll();
     List<GetBaseProductResponse> getSmartPhonesBaseResponse();
     List<GetBaseProductResponse> getLaptops();
+   
     
 }
