@@ -10,7 +10,8 @@ import com.example.product_microservice.business.abstracts.ProductService;
 import com.example.product_microservice.core.mapper.ModelMapperService;
 import com.example.product_microservice.dataAccess.ProductRepository;
 import com.example.product_microservice.dto.GetBaseProductResponse;
-import com.example.product_microservice.dto.GetSubProductResponse;
+import com.example.product_microservice.dto.GetLaptopResponse;
+import com.example.product_microservice.dto.GetSmartPhonesResponse;
 import com.example.product_microservice.entity.Product;
 
 import lombok.AllArgsConstructor;
@@ -38,12 +39,21 @@ public class ProductManager implements  ProductService {
                 GetBaseProductResponse newResponse = new GetBaseProductResponse();
                 newResponse.setId(getBaseProductResponse.getId());
                 newResponse.setImageurl(getBaseProductResponse.getImageurl());
-                newResponse.setName(getBaseProductResponse.getName());
+               
 
-                GetSubProductResponse getSubProductResponse = modelMapperService.forResponse()
-                .map(subProduct, GetSubProductResponse.class);
+                GetSmartPhonesResponse getSubProductResponse = modelMapperService.forResponse()
+                .map(subProduct, GetSmartPhonesResponse.class);
                 newResponse.setPrice(getSubProductResponse.getPrice());
+
                 newResponse.setSub_product_id(getSubProductResponse.getId());
+                String size = getSubProductResponse.getSize()+"GB";
+                if("1000".equals(getSubProductResponse.getSize())){
+                    size = "1TB";
+                }
+                String name =getBaseProductResponse.getName() + " " +size + " " + getSubProductResponse.getColorName();
+                newResponse.setName(name);
+                
+
                 return newResponse;
             });
         }).collect(Collectors.toList());
@@ -63,12 +73,22 @@ public class ProductManager implements  ProductService {
                 GetBaseProductResponse newResponse = new GetBaseProductResponse();
                 newResponse.setId(getBaseProductResponse.getId());
                 newResponse.setImageurl(getBaseProductResponse.getImageurl());
-                newResponse.setName(getBaseProductResponse.getName());
+                
 
-                GetSubProductResponse getSubProductResponse = modelMapperService.forResponse()
-                .map(subProduct, GetSubProductResponse.class);
-                newResponse.setPrice(getSubProductResponse.getPrice());
-                newResponse.setSub_product_id(getSubProductResponse.getId());
+                GetLaptopResponse getLaptopResponse = modelMapperService.forResponse()
+                .map(subProduct, GetLaptopResponse.class);
+                newResponse.setPrice(getLaptopResponse.getPrice());
+                newResponse.setSub_product_id(getLaptopResponse.getId());
+                String size = getLaptopResponse.getSize()+"GB";
+                if("1000".equals(getLaptopResponse.getSize())){
+                    size = "1TB";
+                }
+                String name = getBaseProductResponse.getName()+
+                " "+ size + " "+ 
+                getLaptopResponse.getRam_capacity()+"RAM " + 
+                getLaptopResponse.getOperating_system();
+                newResponse.setName(name);
+               
                 return newResponse;
             });
         }).collect(Collectors.toList());      
