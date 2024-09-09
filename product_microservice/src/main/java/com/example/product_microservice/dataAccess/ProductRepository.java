@@ -22,4 +22,5 @@ List<Product> findSmartPhoneDetail(@Param("id") int id,@Param("sub_product_id") 
 
 
 
+
 }

@@ -1,7 +1,7 @@
 package com.example.product_microservice.business.abstracts;
 
-import com.example.product_microservice.dto.ProductDetailResponse;
+import com.example.product_microservice.dto.smartPhone.GetSmartPhoneDetailResponse;
 
 public interface  SmartPhoneService {
-    ProductDetailResponse getSmartPhoneDetail(int productId,int id); 
+    GetSmartPhoneDetailResponse getSmartPhoneDetail(int productId,int id); 
 }

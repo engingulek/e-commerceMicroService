@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.product_microservice.business.abstracts.LaptopService;
 import com.example.product_microservice.business.abstracts.ProductService;
 import com.example.product_microservice.business.abstracts.SmartPhoneService;
-import com.example.product_microservice.dto.GetBaseProductResponse;
-import com.example.product_microservice.dto.ProductDetailResponse;
+import com.example.product_microservice.dto.baseProduct.GetBaseProductResponse;
+import com.example.product_microservice.dto.laptop.GetLaptopDetailResponse;
+import com.example.product_microservice.dto.smartPhone.GetSmartPhoneDetailResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -45,12 +46,12 @@ public class ProductController {
     }
 
     @GetMapping("/getSmartPhoneDetail")
-    public ProductDetailResponse getSmartPhoneDetail(@RequestParam int id , @RequestParam int product_id){
+    public GetSmartPhoneDetailResponse getSmartPhoneDetail(@RequestParam int id , @RequestParam int product_id){
         return  smartPhoneService.getSmartPhoneDetail(product_id, id);
     }
 
     @GetMapping("/getLaptopDetail")
-    public ProductDetailResponse getLaptopDetail(@RequestParam int id , @RequestParam int product_id){
+    public GetLaptopDetailResponse getLaptopDetail(@RequestParam int id , @RequestParam int product_id){
         return  laptopService.getLaptopDetail(product_id, id);
     }
 

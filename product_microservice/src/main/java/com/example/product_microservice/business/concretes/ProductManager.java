@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import com.example.product_microservice.business.abstracts.ProductService;
 import com.example.product_microservice.core.mapper.ModelMapperService;
 import com.example.product_microservice.dataAccess.ProductRepository;
-import com.example.product_microservice.dto.GetBaseProductResponse;
-import com.example.product_microservice.dto.GetLaptopResponse;
-import com.example.product_microservice.dto.GetSmartPhonesResponse;
+import com.example.product_microservice.dto.baseProduct.GetBaseProductResponse;
+import com.example.product_microservice.dto.laptop.GetLaptopResponse;
+import com.example.product_microservice.dto.smartPhone.GetSmartPhonesResponse;
 import com.example.product_microservice.entity.Product;
 
 import lombok.AllArgsConstructor;
