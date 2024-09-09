@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.product_microservice.business.abstracts.LaptopService;
 import com.example.product_microservice.dataAccess.LaptopRepository;
-import com.example.product_microservice.dto.ProductDetailResponse;
+import com.example.product_microservice.dto.laptop.GetLaptopDetailResponse;
 import com.example.product_microservice.entity.Laptop;
 
 import lombok.AllArgsConstructor;
@@ -19,21 +19,23 @@ public class LaptopManager implements  LaptopService {
     @Autowired
     private LaptopRepository laptopRepository;
     @Override
-    public ProductDetailResponse getLaptopDetail(int productId, int id) {
+    public GetLaptopDetailResponse getLaptopDetail(int productId, int id) {
         Laptop laptop = laptopRepository.findFirstByProductIdAndId(productId, id);
-        ProductDetailResponse productDetailResponse = new ProductDetailResponse();
-        productDetailResponse.setId(laptop.getId());
-        productDetailResponse.setProduct_id(laptop.getProduct().getId());
+        GetLaptopDetailResponse getLaptopDetailResponse = new GetLaptopDetailResponse();
+        getLaptopDetailResponse.setId(laptop.getId());
+        getLaptopDetailResponse.setProduct_id(laptop.getProduct().getId());
         String size = laptop.getMemorySize().getSize()+"GB";
          if("1000".equals(laptop.getMemorySize().getSize())){
             size = "1TB";
         }
         String name =laptop.getProduct().getName()+ " " +size + " " + laptop.getRam_capacity();
-        productDetailResponse.setName(name);
-        productDetailResponse.setImageurl(laptop.getProduct().getImageUrl());
-        productDetailResponse.setDescription(laptop.getProduct().getDescription());
-        productDetailResponse.setPrice(laptop.getPrice());
-        return  productDetailResponse;
+        getLaptopDetailResponse.setName(name);
+        getLaptopDetailResponse.setImageurl(laptop.getProduct().getImageUrl());
+        getLaptopDetailResponse.setDescription(laptop.getProduct().getDescription());
+        getLaptopDetailResponse.setPrice(laptop.getPrice());
+        getLaptopDetailResponse.setMemory_size_id(laptop.getMemorySize().getId());
+        
+        return  getLaptopDetailResponse;
 
     }
 
