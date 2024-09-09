@@ -1,6 +1,6 @@
 package com.example.product_microservice.dto.laptop;
 
-import com.example.product_microservice.dto.GetBaseProductDetailResponse;
+import com.example.product_microservice.dto.baseProduct.GetBaseProductDetailResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

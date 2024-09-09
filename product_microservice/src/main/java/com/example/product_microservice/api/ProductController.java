@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.product_microservice.business.abstracts.LaptopService;
 import com.example.product_microservice.business.abstracts.ProductService;
 import com.example.product_microservice.business.abstracts.SmartPhoneService;
-import com.example.product_microservice.dto.GetBaseProductResponse;
+import com.example.product_microservice.dto.baseProduct.GetBaseProductResponse;
 import com.example.product_microservice.dto.laptop.GetLaptopDetailResponse;
 import com.example.product_microservice.dto.smartPhone.GetSmartPhoneDetailResponse;
 
