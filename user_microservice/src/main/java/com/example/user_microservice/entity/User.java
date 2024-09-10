@@ -22,11 +22,13 @@ public class User {
     @Column(name="id")
     private int id;
 
+    
     @Column(nullable = false)
     private String firstName;
 
-    
+    @Column(nullable = false)
     private String lastName;
+    
     @Column(nullable = false, unique = true)
     private String email;
 
