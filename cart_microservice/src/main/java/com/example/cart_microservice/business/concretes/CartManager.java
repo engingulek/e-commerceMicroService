@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.cart_microservice.business.abstracts.CartService;
+import com.example.cart_microservice.client.ProductClient;
 import com.example.cart_microservice.core.modeMapper.ModelMapperService;
 import com.example.cart_microservice.core.results.Result;
 import com.example.cart_microservice.core.results.SuccessDataResult;
@@ -17,6 +18,7 @@ import com.example.cart_microservice.dataAccess.CartItemRepository;
 import com.example.cart_microservice.dataAccess.CartRepository;
 import com.example.cart_microservice.dto.request.CartIncAndDecRequest;
 import com.example.cart_microservice.dto.request.CartRequest;
+import com.example.cart_microservice.dto.response.GetBaseProductResponse;
 import com.example.cart_microservice.dto.response.GetCartByUserIdReponse;
 import com.example.cart_microservice.entity.Cart;
 import com.example.cart_microservice.entity.CartItem;
@@ -34,17 +36,42 @@ public class CartManager implements  CartService {
     private CartItemRepository cartItemRepository;
     @Autowired
     private ModelMapperService modelMapperService;
+    @Autowired
+    private  ProductClient productClient;
     @Override
     public ResponseEntity<Result> getCartByUserId(String user_id) {
+
        Cart cart = cartRepository.findByUserId(user_id);
-       List<GetCartByUserIdReponse> getCartByUserIdReponse = cart
+
+       List<GetBaseProductResponse> productList = productClient
+       .getAll();
+
+
+       
+       List<GetCartByUserIdReponse> getCartByUserIdReponseTst2 = cart
        .getCartItems()
        .stream()
-       .map(cartItem -> this.modelMapperService.forResponse()
-       .map(cartItem, GetCartByUserIdReponse.class))
+       .map((cartItem) -> {
+        GetCartByUserIdReponse response = new GetCartByUserIdReponse();
+        response.setId(cartItem.getId());
+        response.setProductId(cartItem.getProductId());
+        response.setSubProductId(cartItem.getSubProductId());
+        response.setQuantity(cartItem.getQuantity());
+        productList.forEach( pl ->{
+            if (pl.getId() == cartItem.getProductId() && pl.getSub_product_id() == cartItem.getSubProductId()){
+                response.setName(pl.getName());
+                response.setImageUrl(pl.getImageurl());
+                response.setPrice(pl.getPrice());
+            } 
+        }
+        );
+        return  response;
+       })
        .collect(Collectors.toList());
 
-       return  ResponseEntity.ok(new SuccessDataResult<>(getCartByUserIdReponse, true, "fetch successful"));
+
+       
+       return  ResponseEntity.ok(new SuccessDataResult<>(getCartByUserIdReponseTst2, true, "fetch successful"));
 
     }
     @Override
@@ -61,11 +88,12 @@ public class CartManager implements  CartService {
             newCartItem.setCart(addedCart);
 
             newCartItem.setProductId(cartRequest.getProduct_id());
+            newCartItem.setSubProductId(cartRequest.getSub_product_id());
             newCartItem.setQuantity(1);
             cartItemRepository.save(newCartItem);
         }else{
 
-            CartItem cartItem = cartItemRepository.findByProductId(cartRequest.getProduct_id());
+            CartItem cartItem = cartItemRepository.findByProductIdAndSubProductId(cartRequest.getProduct_id(),cartRequest.getSub_product_id());
 
             if(cartItem == null){
                 CartItem newCartItem = new CartItem();
@@ -73,6 +101,7 @@ public class CartManager implements  CartService {
                 //newCartItem.setCart(cartState);
                newCartItem.getCart().setId(cartState.getId());
                newCartItem.setProductId(cartRequest.getProduct_id());
+               newCartItem.setSubProductId(cartRequest.getSub_product_id());
             }else{
                 int newQuantity = cartItem.getQuantity() + 1;
                 cartItem.setQuantity(newQuantity);

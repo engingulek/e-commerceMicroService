@@ -10,12 +10,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetCartByUserIdReponse {
+
+public class GetBaseProductResponse {
     private int id;
-    private int productId; 
-    private int subProductId;
+    private List<String> imageurl;
     private String name;
-    private List<String> imageUrl;
+    private int sub_product_id;
     private BigDecimal price;
-    private int quantity;
+    
+   
 }

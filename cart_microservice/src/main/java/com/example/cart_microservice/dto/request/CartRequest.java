@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class CartRequest {
     private String user_id;
     private int  product_id;
+    private int sub_product_id;
 }
