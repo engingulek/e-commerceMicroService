@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetCartByUserIdReponse {
+    private int productId; 
     private String name;
     private List<String> imageUrl;
     private BigDecimal price;
