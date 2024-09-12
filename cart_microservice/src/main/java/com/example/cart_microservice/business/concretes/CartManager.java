@@ -1,5 +1,6 @@
 package com.example.cart_microservice.business.concretes;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,7 @@ import com.example.cart_microservice.core.results.SuccessDataResult;
 import com.example.cart_microservice.core.results.SuccessResult;
 import com.example.cart_microservice.dataAccess.CartItemRepository;
 import com.example.cart_microservice.dataAccess.CartRepository;
+import com.example.cart_microservice.dto.request.CartIncAndDecRequest;
 import com.example.cart_microservice.dto.request.CartRequest;
 import com.example.cart_microservice.dto.response.GetCartByUserIdReponse;
 import com.example.cart_microservice.entity.Cart;
@@ -51,6 +53,8 @@ public class CartManager implements  CartService {
         if (cartState == null){
             Cart newCart = new Cart();
             newCart.setUserId(cartRequest.getUser_id());
+            newCart.setCreated_at(new Date());
+            newCart.setUpdated_at(new Date());
             Cart  addedCart = cartRepository.save(newCart);
             CartItem  newCartItem = new  CartItem();
             newCartItem.setId(addedCart.getId());
@@ -63,6 +67,7 @@ public class CartManager implements  CartService {
 
             if(cartItem == null){
                 CartItem newCartItem = new CartItem();
+                cartState.setUpdated_at(new Date());
                 newCartItem.setCart(cartState);
                // newCartItem.getCart().setId(cartState.getId());
                newCartItem.setProductId(cartRequest.getProduct_id());
@@ -70,10 +75,41 @@ public class CartManager implements  CartService {
                 int newQuantity = cartItem.getQuantity() + 1;
                 cartItem.setQuantity(newQuantity);
                 cartItemRepository.save(cartItem);
+                cartState.setUpdated_at(new Date());
             }
             
         }
         return  ResponseEntity.ok(new SuccessResult("fetch successful"));
+    }
+    @Override
+    public ResponseEntity<Result> incrementProduct(CartIncAndDecRequest cartIncAndDecRequest) {
+        CartItem cartItem = cartItemRepository.findById(cartIncAndDecRequest.getId()).orElseThrow();
+        int oldQuantity = cartItem.getQuantity() + 1;
+        cartItem.setQuantity(oldQuantity);
+
+        cartItem.getCart().setUpdated_at(new Date());
+
+        return  ResponseEntity.ok(new SuccessResult("increment successful"));
+    }
+    @Override
+    public ResponseEntity<Result> decrementProduct(CartIncAndDecRequest cartIncAndDecRequest) {
+        CartItem cartItem = cartItemRepository.findById(cartIncAndDecRequest.getId()).orElseThrow();
+        if (cartItem.getQuantity() == 1) {
+            cartItemRepository.delete(cartItem);
+            int cartCount = cartRepository.findAll().size();
+            if(cartCount == 0){
+                cartRepository.deleteById(cartItem.getCart().getId());
+            }
+        }else{
+            int newQuantity = cartItem.getQuantity() - 1;
+            cartItem.setQuantity(newQuantity);
+            cartItemRepository.save(cartItem);
+        }
+       
+
+        cartItem.getCart().setUpdated_at(new Date());
+
+        return  ResponseEntity.ok(new SuccessResult("increment successful"));
     }
     
 }
