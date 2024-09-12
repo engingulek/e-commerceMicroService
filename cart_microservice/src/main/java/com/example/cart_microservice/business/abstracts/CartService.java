@@ -1,9 +1,11 @@
 package com.example.cart_microservice.business.abstracts;
 
-import java.util.List;
+import org.springframework.http.ResponseEntity;
 
-import com.example.cart_microservice.dto.response.GetCartByUserIdReponse;
+import com.example.cart_microservice.core.results.Result;
+import com.example.cart_microservice.dto.request.CartRequest;
 
 public interface  CartService {
-    List<GetCartByUserIdReponse> getCartByUserId(String user_id);
+   ResponseEntity<Result> getCartByUserId(String user_id);
+   ResponseEntity<Result> addProductToCart(CartRequest cartRequest);
 }

@@ -28,9 +28,11 @@ public class CartItem {
     private Cart cart;
 
     @Column(name="product_id")
-    private int product_id;
+    private int productId;
 
-    @Column(name="sub_product_id")
-    private int subProductId;
+    @Column(name = "quantity")
+    private int  quantity;
+
+  
 
 }
