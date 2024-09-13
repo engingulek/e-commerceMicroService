@@ -1,9 +1,11 @@
 package com.example.product_microservice.business.abstracts;
 
 
-import com.example.product_microservice.dto.laptop.GetLaptopDetailResponse;
+import org.springframework.http.ResponseEntity;
+
+import com.example.product_microservice.core.results.Result;
 
 
 public interface LaptopService {
-    GetLaptopDetailResponse getLaptopDetail(int productId,int id); 
+     ResponseEntity<Result>  getLaptopDetail(int productId,int id); 
 }

@@ -1,8 +1,7 @@
 package com.example.product_microservice.api;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,9 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.product_microservice.business.abstracts.LaptopService;
 import com.example.product_microservice.business.abstracts.ProductService;
 import com.example.product_microservice.business.abstracts.SmartPhoneService;
-import com.example.product_microservice.dto.baseProduct.GetBaseProductResponse;
-import com.example.product_microservice.dto.laptop.GetLaptopDetailResponse;
-import com.example.product_microservice.dto.smartPhone.GetSmartPhoneDetailResponse;
+import com.example.product_microservice.core.results.Result;
+import com.example.product_microservice.core.results.SuccessDataResult;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -32,27 +30,37 @@ public class ProductController {
     private LaptopService laptopService;
 
     @GetMapping("/getAll")
-    public List<GetBaseProductResponse> getAll() {
-        return  productService.getAll();
+    public ResponseEntity<Result> getAll() {
+        return  ResponseEntity
+        .ok(new SuccessDataResult<>(
+            productService.getAll(),
+            true, "fetch successful")) ;
     }
     @GetMapping("/getSmartPhones")
-    public List<GetBaseProductResponse> getSmartPhonesBaseResponse(){
-        return  productService.getSmartPhonesBaseResponse();
+    public ResponseEntity<Result> getSmartPhonesBaseResponse(){
+        return  ResponseEntity
+        .ok(new SuccessDataResult<>(
+            productService.getSmartPhonesBaseResponse(),
+            true, "fetch successful")) ;
+        
     }
 
     @GetMapping("/getLaptops")
-    public List<GetBaseProductResponse> getLaptops(){
-        return  productService.getLaptops();
+    public ResponseEntity<Result> getLaptops(){
+        return  ResponseEntity.ok(new SuccessDataResult<>(
+            productService.getLaptops(),
+            true, "fetch successful")) ;
+        
     }
 
     @GetMapping("/getSmartPhoneDetail")
-    public GetSmartPhoneDetailResponse getSmartPhoneDetail(@RequestParam int id , @RequestParam int product_id){
-        return  smartPhoneService.getSmartPhoneDetail(product_id, id);
+    public ResponseEntity<Result> getSmartPhoneDetail(@RequestParam int id , @RequestParam int product_id){
+        return smartPhoneService.getSmartPhoneDetail(product_id, id);
     }
 
     @GetMapping("/getLaptopDetail")
-    public GetLaptopDetailResponse getLaptopDetail(@RequestParam int id , @RequestParam int product_id){
-        return  laptopService.getLaptopDetail(product_id, id);
+    public ResponseEntity<Result> getLaptopDetail(@RequestParam int id , @RequestParam int product_id){
+        return laptopService.getLaptopDetail(product_id, id);
     }
 
     
