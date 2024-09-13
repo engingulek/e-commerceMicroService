@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.inventory_microservice.business.abstracts.InventoryService;
 import com.example.inventory_microservice.core.mapper.ModelMapperService;
+import com.example.inventory_microservice.core.results.Result;
+import com.example.inventory_microservice.core.results.SuccessDataResult;
 import com.example.inventory_microservice.dataAccess.InventoryRepository;
 import com.example.inventory_microservice.dto.GetItemResponse;
 import com.example.inventory_microservice.entity.Item;
@@ -24,14 +27,14 @@ public class InventoryManager  implements InventoryService{
     @Autowired
     private ModelMapperService modelMapperService;
     @Override
-    public List<GetItemResponse> getInventoryByProductId(int product_id) {
+    public ResponseEntity<Result> getInventoryByProductId(int product_id) {
         List<Item> items = inventoryRepository.findByProductId(product_id);
 
         List<GetItemResponse> getItemResponses = items.stream().map(item -> this.modelMapperService.forResponse()
         .map(item, GetItemResponse.class)).collect(Collectors.toList());
         
        
-        return  getItemResponses;
+        return  ResponseEntity.ok(new SuccessDataResult<>(getItemResponses, true, "fetch success full"));
     }
 
 }
