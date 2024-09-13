@@ -1,6 +1,4 @@
 package com.example.category_microservice.dto.response;
-
-
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -13,5 +11,5 @@ import lombok.NoArgsConstructor;
 public class GetCategoryResponse {
     private int id;
     private  String name;
-   private List<GetSubCategoryResponse> subCategories;
+    private List<GetSubCategoryResponse> subCategories;
 }
