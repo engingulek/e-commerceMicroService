@@ -1,5 +1,7 @@
 package com.example.product_microservice.business.concretes;
 
+
+
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -31,7 +33,7 @@ public class ProductManager implements  ProductService {
 
         List<Product> products = productRepository.findBySubCategoryId(1);
 
-        return products.stream().flatMap(product -> {
+        List<GetBaseProductResponse> list = products.stream().flatMap(product -> {
              GetBaseProductResponse getBaseProductResponse = modelMapperService
             .forResponse().map(product, GetBaseProductResponse.class);
 
@@ -58,6 +60,8 @@ public class ProductManager implements  ProductService {
                 return newResponse;
             });
         }).collect(Collectors.toList());
+
+        return  list;
     }
 
 
@@ -65,7 +69,7 @@ public class ProductManager implements  ProductService {
     public List<GetBaseProductResponse> getLaptops() {
         List<Product> products = productRepository.findBySubCategoryId(2);
         
-        return products.stream().flatMap(product -> {
+        List<GetBaseProductResponse> list = products.stream().flatMap(product -> {
              GetBaseProductResponse getBaseProductResponse = modelMapperService
             .forResponse().map(product, GetBaseProductResponse.class);
 
@@ -92,7 +96,9 @@ public class ProductManager implements  ProductService {
                
                 return newResponse;
             });
-        }).collect(Collectors.toList());      
+        }).collect(Collectors.toList());    
+
+        return  list;
     }
 
 
@@ -100,6 +106,7 @@ public class ProductManager implements  ProductService {
 public List<GetBaseProductResponse> getAll() {
     List<GetBaseProductResponse> smartPhoneList = getSmartPhonesBaseResponse();
     List<GetBaseProductResponse> laptops = getLaptops();
+    
 
 
     List<GetBaseProductResponse> allProduct = Stream.concat(smartPhoneList.stream(), laptops.stream())

@@ -1,9 +1,12 @@
 package com.example.product_microservice.business.concretes;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.product_microservice.business.abstracts.SmartPhoneService;
+import com.example.product_microservice.core.results.Result;
+import com.example.product_microservice.core.results.SuccessDataResult;
 import com.example.product_microservice.dataAccess.SmartPhoneRepository;
 import com.example.product_microservice.dto.smartPhone.GetSmartPhoneDetailResponse;
 import com.example.product_microservice.entity.SmartPhone;
@@ -19,7 +22,7 @@ public class SmartPhoneManager implements SmartPhoneService {
     private SmartPhoneRepository smartPhoneRepository;
 
     @Override
-    public GetSmartPhoneDetailResponse getSmartPhoneDetail(int productId,int id) {
+    public ResponseEntity<Result>  getSmartPhoneDetail(int productId,int id) {
         SmartPhone smartPhone =  smartPhoneRepository.findFirstByProductIdAndId(productId, id);
         GetSmartPhoneDetailResponse getSmartPhoneDetailResponse = new GetSmartPhoneDetailResponse();
         
@@ -39,6 +42,6 @@ public class SmartPhoneManager implements SmartPhoneService {
         getSmartPhoneDetailResponse.setMemory_size_id(smartPhone.getMemorySize().getId());
        
         
-        return  getSmartPhoneDetailResponse;
+        return  ResponseEntity.ok(new SuccessDataResult<>(getSmartPhoneDetailResponse,true, "fetch successful")) ;
     }
 }

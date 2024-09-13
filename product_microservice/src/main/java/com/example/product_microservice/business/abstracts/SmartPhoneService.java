@@ -1,7 +1,9 @@
 package com.example.product_microservice.business.abstracts;
 
-import com.example.product_microservice.dto.smartPhone.GetSmartPhoneDetailResponse;
+import org.springframework.http.ResponseEntity;
+
+import com.example.product_microservice.core.results.Result;
 
 public interface  SmartPhoneService {
-    GetSmartPhoneDetailResponse getSmartPhoneDetail(int productId,int id); 
+    ResponseEntity<Result>  getSmartPhoneDetail(int productId,int id); 
 }
