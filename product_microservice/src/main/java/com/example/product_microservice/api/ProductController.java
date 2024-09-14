@@ -29,13 +29,14 @@ public class ProductController {
     @Autowired
     private LaptopService laptopService;
 
-    @GetMapping("/getAll")
+    @GetMapping("/getElectAll")
     public ResponseEntity<Result> getAll() {
         return  ResponseEntity
         .ok(new SuccessDataResult<>(
-            productService.getAll(),
+            productService.getElecAll(),
             true, "fetch successful")) ;
     }
+
     @GetMapping("/getSmartPhones")
     public ResponseEntity<Result> getSmartPhonesBaseResponse(){
         return  ResponseEntity
@@ -51,6 +52,28 @@ public class ProductController {
             productService.getLaptops(),
             true, "fetch successful")) ;
         
+    }
+
+    @GetMapping("/getClothesAll")
+    public ResponseEntity<Result> getClothesAll() {
+        return  ResponseEntity
+        .ok(new SuccessDataResult<>(
+            productService.getClothesAll(),
+            true, "fetch successful")) ;
+    }
+
+    @GetMapping("/getThirsts")
+    public ResponseEntity<Result> getThirsts(){
+        return  ResponseEntity.ok(
+            new SuccessDataResult<>(
+            productService.getThirsts() ,true, "fetchSuccess ful"));
+    }
+
+    @GetMapping("/getJumpers")
+    public ResponseEntity<Result> getJumpers(){
+        return  ResponseEntity.ok(
+            new SuccessDataResult<>(
+            productService.getJumpers() ,true, "fetchSuccess ful"));
     }
 
     @GetMapping("/getSmartPhoneDetail")

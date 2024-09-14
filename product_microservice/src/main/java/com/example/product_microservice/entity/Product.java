@@ -1,6 +1,5 @@
 package com.example.product_microservice.entity;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -42,16 +41,13 @@ public class Product {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "screen_size",precision = 38, scale = 2)
-    private BigDecimal screenSize;
-
-    @Column(name = "resolution", length = 20)
-    private String resolution;
-
     @OneToMany(mappedBy="product")
     List<SmartPhone> smartPhones;
     @OneToMany(mappedBy="product")
     List<Laptop> laptops;
+
+    @OneToMany(mappedBy="product")
+    List<Clothes> clothes;
 
 
     

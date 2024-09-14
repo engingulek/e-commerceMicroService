@@ -3,6 +3,9 @@ package com.example.product_microservice.dto.smartPhone;
 
 import java.math.BigDecimal;
 
+import com.example.product_microservice.entity.Color;
+import com.example.product_microservice.entity.MemorySize;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,11 +16,6 @@ import lombok.NoArgsConstructor;
 public class GetSmartPhonesResponse {
     private int id;
     private BigDecimal price;
-    private String colorName;
-    private String size;
-   /* private int memory_size_id;
-    private String size;*/
-    
-
-  
+    private Color color;
+    private MemorySize memorySize;
 }
