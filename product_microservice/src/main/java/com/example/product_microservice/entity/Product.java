@@ -46,6 +46,9 @@ public class Product {
     @OneToMany(mappedBy="product")
     List<Laptop> laptops;
 
+    @OneToMany(mappedBy="product")
+    List<Clothes> clothes;
+
 
     
 }

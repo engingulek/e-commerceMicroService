@@ -53,6 +53,20 @@ public class ProductController {
         
     }
 
+    @GetMapping("/getThirsts")
+    public ResponseEntity<Result> getThirsts(){
+        return  ResponseEntity.ok(
+            new SuccessDataResult<>(
+            productService.getThirsts() ,true, "fetchSuccess ful"));
+    }
+
+    @GetMapping("/getJumpers")
+    public ResponseEntity<Result> getJumpers(){
+        return  ResponseEntity.ok(
+            new SuccessDataResult<>(
+            productService.getJumpers() ,true, "fetchSuccess ful"));
+    }
+
     @GetMapping("/getSmartPhoneDetail")
     public ResponseEntity<Result> getSmartPhoneDetail(@RequestParam int id , @RequestParam int product_id){
         return smartPhoneService.getSmartPhoneDetail(product_id, id);

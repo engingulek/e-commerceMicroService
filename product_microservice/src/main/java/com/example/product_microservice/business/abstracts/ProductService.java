@@ -8,4 +8,6 @@ public interface  ProductService {
      List<GetBaseProductResponse> getAll();
      List<GetBaseProductResponse> getSmartPhonesBaseResponse();
      List<GetBaseProductResponse> getLaptops();
+     List<GetBaseProductResponse> getThirsts();
+     List<GetBaseProductResponse> getJumpers();
 }

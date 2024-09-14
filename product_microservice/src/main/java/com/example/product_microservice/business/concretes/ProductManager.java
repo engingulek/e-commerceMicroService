@@ -13,6 +13,7 @@ import com.example.product_microservice.business.abstracts.ProductService;
 import com.example.product_microservice.core.mapper.ModelMapperService;
 import com.example.product_microservice.dataAccess.ProductRepository;
 import com.example.product_microservice.dto.baseProduct.GetBaseProductResponse;
+import com.example.product_microservice.dto.clothes.GetClothesResponse;
 import com.example.product_microservice.dto.laptop.GetLaptopResponse;
 import com.example.product_microservice.dto.smartPhone.GetSmartPhonesResponse;
 import com.example.product_microservice.entity.Product;
@@ -113,6 +114,40 @@ public List<GetBaseProductResponse> getAll() {
                                           .collect(Collectors.toList());
  
     return  allProduct;
+}
+
+
+@Override
+public List<GetBaseProductResponse> getThirsts() {
+    List<GetClothesResponse> products = productRepository.findBySubCategoryIdForClothes(6);
+    List<GetBaseProductResponse> list = products.stream().map(product -> {
+        GetBaseProductResponse getBaseProductResponse = new GetBaseProductResponse();
+        getBaseProductResponse.setId(product.getId());
+        getBaseProductResponse.setImageurl(product.getImageUrl());
+        String name = product.getName() + " " +product.getColorName();
+        getBaseProductResponse.setName(name);
+        getBaseProductResponse.setPrice(product.getPrice());
+        getBaseProductResponse.setSub_product_id(0);
+        return  getBaseProductResponse;
+    }).collect(Collectors.toList());
+    return  list;
+}
+
+
+@Override
+public List<GetBaseProductResponse> getJumpers() {
+    List<GetClothesResponse> products = productRepository.findBySubCategoryIdForClothes(4);
+    List<GetBaseProductResponse> list = products.stream().map(product -> {
+        GetBaseProductResponse getBaseProductResponse = new GetBaseProductResponse();
+        getBaseProductResponse.setId(product.getId());
+        getBaseProductResponse.setImageurl(product.getImageUrl());
+        String name = product.getName() + " " +product.getColorName();
+        getBaseProductResponse.setName(name);
+        getBaseProductResponse.setPrice(product.getPrice());
+        getBaseProductResponse.setSub_product_id(0);
+        return  getBaseProductResponse;
+    }).collect(Collectors.toList());
+    return  list;
 }
 
 
