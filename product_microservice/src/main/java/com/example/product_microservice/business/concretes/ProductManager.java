@@ -13,9 +13,14 @@ import com.example.product_microservice.business.abstracts.ProductService;
 import com.example.product_microservice.core.mapper.ModelMapperService;
 import com.example.product_microservice.dataAccess.ProductRepository;
 import com.example.product_microservice.dto.baseProduct.GetBaseProductResponse;
+import com.example.product_microservice.dto.baseProduct.generics.GetBaseProductResForClothes;
+import com.example.product_microservice.dto.baseProduct.generics.GetBaseProductResForElec;
 import com.example.product_microservice.dto.clothes.GetClothesResponse;
 import com.example.product_microservice.dto.laptop.GetLaptopResponse;
 import com.example.product_microservice.dto.smartPhone.GetSmartPhonesResponse;
+import com.example.product_microservice.entity.ClotheColor;
+import com.example.product_microservice.entity.Color;
+import com.example.product_microservice.entity.MemorySize;
 import com.example.product_microservice.entity.Product;
 
 import lombok.AllArgsConstructor;
@@ -35,12 +40,13 @@ public class ProductManager implements  ProductService {
         List<Product> products = productRepository.findBySubCategoryId(1);
 
         List<GetBaseProductResponse> list = products.stream().flatMap(product -> {
-             GetBaseProductResponse getBaseProductResponse = modelMapperService
+             @SuppressWarnings("unchecked")
+            GetBaseProductResponse getBaseProductResponse = modelMapperService
             .forResponse().map(product, GetBaseProductResponse.class);
 
             return product.getSmartPhones().stream().map(subProduct -> {
 
-                GetBaseProductResponse newResponse = new GetBaseProductResponse();
+                GetBaseProductResForElec<MemorySize,Color> newResponse = new GetBaseProductResForElec<MemorySize,Color>();
                 newResponse.setId(getBaseProductResponse.getId());
                 newResponse.setImageurl(getBaseProductResponse.getImageurl());
                
@@ -48,13 +54,15 @@ public class ProductManager implements  ProductService {
                 GetSmartPhonesResponse getSubProductResponse = modelMapperService.forResponse()
                 .map(subProduct, GetSmartPhonesResponse.class);
                 newResponse.setPrice(getSubProductResponse.getPrice());
+                newResponse.setFeature_one(getSubProductResponse.getMemorySize());
+                newResponse.setFeature_tow(getSubProductResponse.getColor());
 
-                newResponse.setSub_product_id(getSubProductResponse.getId());
-                String size = getSubProductResponse.getSize()+"GB";
-                if("1000".equals(getSubProductResponse.getSize())){
+                
+                String size = getSubProductResponse.getMemorySize().getSize()+"GB";
+                if("1000".equals(getSubProductResponse.getMemorySize().getSize())){
                     size = "1TB";
                 }
-                String name =getBaseProductResponse.getName() + " " +size + " " + getSubProductResponse.getColorName();
+                String name =getBaseProductResponse.getName() + " " +size + " " + getSubProductResponse.getColor().getName();
                 newResponse.setName(name);
                 
 
@@ -71,12 +79,13 @@ public class ProductManager implements  ProductService {
         List<Product> products = productRepository.findBySubCategoryId(2);
         
         List<GetBaseProductResponse> list = products.stream().flatMap(product -> {
-             GetBaseProductResponse getBaseProductResponse = modelMapperService
+             @SuppressWarnings("unchecked")
+            GetBaseProductResponse getBaseProductResponse = modelMapperService
             .forResponse().map(product, GetBaseProductResponse.class);
 
             return product.getLaptops().stream().map(subProduct -> {
 
-                GetBaseProductResponse newResponse = new GetBaseProductResponse();
+                GetBaseProductResForElec<MemorySize,Integer> newResponse = new GetBaseProductResForElec<>();
                 newResponse.setId(getBaseProductResponse.getId());
                 newResponse.setImageurl(getBaseProductResponse.getImageurl());
                 
@@ -84,9 +93,8 @@ public class ProductManager implements  ProductService {
                 GetLaptopResponse getLaptopResponse = modelMapperService.forResponse()
                 .map(subProduct, GetLaptopResponse.class);
                 newResponse.setPrice(getLaptopResponse.getPrice());
-                newResponse.setSub_product_id(getLaptopResponse.getId());
-                String size = getLaptopResponse.getSize()+"GB";
-                if("1000".equals(getLaptopResponse.getSize())){
+                String size = getLaptopResponse.getMemorySize().getSize()+"GB";
+                if("1000".equals(getLaptopResponse.getMemorySize().getSize())){
                     size = "1TB";
                 }
                 String name = getBaseProductResponse.getName()+
@@ -94,6 +102,9 @@ public class ProductManager implements  ProductService {
                 getLaptopResponse.getRam_capacity()+"RAM " + 
                 getLaptopResponse.getOperating_system();
                 newResponse.setName(name);
+                newResponse.setFeature_one(getLaptopResponse.getMemorySize());
+                
+                newResponse.setFeature_tow(getLaptopResponse.getRam_capacity());
                
                 return newResponse;
             });
@@ -103,8 +114,9 @@ public class ProductManager implements  ProductService {
     }
 
 
+
 @Override
-public List<GetBaseProductResponse> getAll() {
+public List<GetBaseProductResponse> getElecAll() {
     List<GetBaseProductResponse> smartPhoneList = getSmartPhonesBaseResponse();
     List<GetBaseProductResponse> laptops = getLaptops();
     
@@ -121,13 +133,13 @@ public List<GetBaseProductResponse> getAll() {
 public List<GetBaseProductResponse> getThirsts() {
     List<GetClothesResponse> products = productRepository.findBySubCategoryIdForClothes(6);
     List<GetBaseProductResponse> list = products.stream().map(product -> {
-        GetBaseProductResponse getBaseProductResponse = new GetBaseProductResponse();
+        GetBaseProductResForClothes<ClotheColor> getBaseProductResponse = new GetBaseProductResForClothes<>();
         getBaseProductResponse.setId(product.getId());
         getBaseProductResponse.setImageurl(product.getImageUrl());
-        String name = product.getName() + " " +product.getColorName();
+        String name = product.getName() + " " +product.getColor().getName();
         getBaseProductResponse.setName(name);
         getBaseProductResponse.setPrice(product.getPrice());
-        getBaseProductResponse.setSub_product_id(0);
+        getBaseProductResponse.setFeature_one(product.getColor());
         return  getBaseProductResponse;
     }).collect(Collectors.toList());
     return  list;
@@ -138,16 +150,31 @@ public List<GetBaseProductResponse> getThirsts() {
 public List<GetBaseProductResponse> getJumpers() {
     List<GetClothesResponse> products = productRepository.findBySubCategoryIdForClothes(4);
     List<GetBaseProductResponse> list = products.stream().map(product -> {
-        GetBaseProductResponse getBaseProductResponse = new GetBaseProductResponse();
+        GetBaseProductResForClothes<ClotheColor> getBaseProductResponse = new GetBaseProductResForClothes<>();
         getBaseProductResponse.setId(product.getId());
         getBaseProductResponse.setImageurl(product.getImageUrl());
-        String name = product.getName() + " " +product.getColorName();
+        String name = product.getName() + " " +product.getColor().getName();
         getBaseProductResponse.setName(name);
         getBaseProductResponse.setPrice(product.getPrice());
-        getBaseProductResponse.setSub_product_id(0);
+        getBaseProductResponse.setFeature_one(product.getColor());
         return  getBaseProductResponse;
     }).collect(Collectors.toList());
     return  list;
+}
+
+
+@Override
+public List<GetBaseProductResponse> getClothesAll() {
+    
+    List<GetBaseProductResponse> tshirtList = getThirsts();
+    List<GetBaseProductResponse> jumperList = getJumpers();
+    
+
+
+    List<GetBaseProductResponse> allProduct = Stream.concat(tshirtList.stream(), jumperList.stream())
+                                          .collect(Collectors.toList());
+ 
+    return  allProduct;
 }
 
 

@@ -2,6 +2,8 @@ package com.example.product_microservice.dto.laptop;
 
 import java.math.BigDecimal;
 
+import com.example.product_microservice.entity.MemorySize;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class GetLaptopResponse {
     private int id;
     private BigDecimal price;
-    private String size;
+    private MemorySize memorySize;
     private int ram_capacity;
     private String operating_system;
 }

@@ -15,6 +15,6 @@ public class GetBaseProductResponse {
     private int id;
     private List<String> imageurl;
     private String name;
-    private int sub_product_id;
     private BigDecimal price;
+ 
 }
