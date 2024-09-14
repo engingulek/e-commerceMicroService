@@ -14,7 +14,6 @@ import com.example.category_microservice.core.results.Result;
 import com.example.category_microservice.core.results.SuccessDataResult;
 import com.example.category_microservice.dataAccess.CategoryRepository;
 import com.example.category_microservice.dto.response.GetCategoryResponse;
-import com.example.category_microservice.dto.response.GetSubCategoryResponse;
 import com.example.category_microservice.entities.Category;
 
 import lombok.AllArgsConstructor;
@@ -36,24 +35,9 @@ public class CategoryManager implements  CategoryService {
             .body(new ErrorResult("Something went wrong"));
         }
         else {
-            List<GetCategoryResponse> list =  categories.stream().map(category -> {
-
-                GetCategoryResponse categoryResponse = modelMapperService
-                .forResponse()
-                .map(category, GetCategoryResponse.class);
-    
-                List<GetSubCategoryResponse> subCategoryResponses = category
-                .getSubCategories()
-                .stream()
-                .map(subCategory -> modelMapperService
-                    .forResponse()
-                     .map(subCategory, GetSubCategoryResponse.class))
-                .collect(Collectors.toList());
-                
-                categoryResponse.setSubCategories(subCategoryResponses);
-    
-                return categoryResponse;
-            }).collect(Collectors.toList());
+            List<GetCategoryResponse> list = categories.stream().map(a -> this.modelMapperService.forResponse()
+            .map(a, GetCategoryResponse.class)).collect(Collectors.toList());
+         
             return  ResponseEntity.ok( new SuccessDataResult<>(list, "successful fetching"));
         }
     }
