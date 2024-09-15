@@ -8,8 +8,8 @@ import com.example.product_microservice.business.abstracts.LaptopService;
 import com.example.product_microservice.core.results.Result;
 import com.example.product_microservice.core.results.SuccessDataResult;
 import com.example.product_microservice.dataAccess.LaptopRepository;
-import com.example.product_microservice.dto.laptop.GetLaptopDetailResponse;
 import com.example.product_microservice.entity.Laptop;
+import com.example.product_microservice.response.laptop.GetLaptopDetailResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

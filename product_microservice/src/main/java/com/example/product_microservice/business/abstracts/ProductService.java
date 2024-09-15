@@ -2,7 +2,7 @@ package com.example.product_microservice.business.abstracts;
 
 import java.util.List;
 
-import com.example.product_microservice.dto.baseProduct.GetBaseProductResponse;
+import com.example.product_microservice.response.base.GetBaseProductResponse;
 
 public interface  ProductService {
      List<GetBaseProductResponse> getElecAll();
