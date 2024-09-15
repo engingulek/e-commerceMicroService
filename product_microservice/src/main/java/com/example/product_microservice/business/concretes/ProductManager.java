@@ -12,13 +12,12 @@ import org.springframework.stereotype.Service;
 import com.example.product_microservice.business.abstracts.ProductService;
 import com.example.product_microservice.core.mapper.ModelMapperService;
 import com.example.product_microservice.dataAccess.ProductRepository;
+import com.example.product_microservice.dto.GetClothesDto;
 import com.example.product_microservice.dto.baseProduct.GetBaseProductResponse;
 import com.example.product_microservice.dto.baseProduct.generics.GetBaseProductResForClothes;
 import com.example.product_microservice.dto.baseProduct.generics.GetBaseProductResForElec;
-import com.example.product_microservice.dto.clothes.GetClothesResponse;
 import com.example.product_microservice.dto.laptop.GetLaptopResponse;
 import com.example.product_microservice.dto.smartPhone.GetSmartPhonesResponse;
-import com.example.product_microservice.entity.ClotheColor;
 import com.example.product_microservice.entity.Color;
 import com.example.product_microservice.entity.MemorySize;
 import com.example.product_microservice.entity.Product;
@@ -40,13 +39,13 @@ public class ProductManager implements  ProductService {
         List<Product> products = productRepository.findBySubCategoryId(1);
 
         List<GetBaseProductResponse> list = products.stream().flatMap(product -> {
-             @SuppressWarnings("unchecked")
+           
             GetBaseProductResponse getBaseProductResponse = modelMapperService
             .forResponse().map(product, GetBaseProductResponse.class);
 
             return product.getSmartPhones().stream().map(subProduct -> {
 
-                GetBaseProductResForElec<MemorySize,Color> newResponse = new GetBaseProductResForElec<MemorySize,Color>();
+                GetBaseProductResForElec<MemorySize,Color> newResponse = new GetBaseProductResForElec<>();
                 newResponse.setId(getBaseProductResponse.getId());
                 newResponse.setImageurl(getBaseProductResponse.getImageurl());
                
@@ -79,7 +78,7 @@ public class ProductManager implements  ProductService {
         List<Product> products = productRepository.findBySubCategoryId(2);
         
         List<GetBaseProductResponse> list = products.stream().flatMap(product -> {
-             @SuppressWarnings("unchecked")
+            
             GetBaseProductResponse getBaseProductResponse = modelMapperService
             .forResponse().map(product, GetBaseProductResponse.class);
 
@@ -131,34 +130,20 @@ public List<GetBaseProductResponse> getElecAll() {
 
 @Override
 public List<GetBaseProductResponse> getThirsts() {
-    List<GetClothesResponse> products = productRepository.findBySubCategoryIdForClothes(6);
-    List<GetBaseProductResponse> list = products.stream().map(product -> {
-        GetBaseProductResForClothes<ClotheColor> getBaseProductResponse = new GetBaseProductResForClothes<>();
-        getBaseProductResponse.setId(product.getId());
-        getBaseProductResponse.setImageurl(product.getImageUrl());
-        String name = product.getName() + " " +product.getColor().getName();
-        getBaseProductResponse.setName(name);
-        getBaseProductResponse.setPrice(product.getPrice());
-        getBaseProductResponse.setFeature_one(product.getColor());
-        return  getBaseProductResponse;
-    }).collect(Collectors.toList());
+    List<GetClothesDto> products = productRepository.findBySubCategoryIdForClothes(6);
+
+    List<GetBaseProductResponse> list = products.stream().map(a -> this.modelMapperService.forResponse()
+        .map(a, GetBaseProductResForClothes.class)).collect(Collectors.toList());
+
     return  list;
 }
 
 
 @Override
 public List<GetBaseProductResponse> getJumpers() {
-    List<GetClothesResponse> products = productRepository.findBySubCategoryIdForClothes(4);
-    List<GetBaseProductResponse> list = products.stream().map(product -> {
-        GetBaseProductResForClothes<ClotheColor> getBaseProductResponse = new GetBaseProductResForClothes<>();
-        getBaseProductResponse.setId(product.getId());
-        getBaseProductResponse.setImageurl(product.getImageUrl());
-        String name = product.getName() + " " +product.getColor().getName();
-        getBaseProductResponse.setName(name);
-        getBaseProductResponse.setPrice(product.getPrice());
-        getBaseProductResponse.setFeature_one(product.getColor());
-        return  getBaseProductResponse;
-    }).collect(Collectors.toList());
+    List<GetClothesDto> products = productRepository.findBySubCategoryIdForClothes(4);
+    List<GetBaseProductResponse> list = products.stream().map(a -> this.modelMapperService.forResponse()
+    .map(a, GetBaseProductResForClothes.class)).collect(Collectors.toList());
     return  list;
 }
 

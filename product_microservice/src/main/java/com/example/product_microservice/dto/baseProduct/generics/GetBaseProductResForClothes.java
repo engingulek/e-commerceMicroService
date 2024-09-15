@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetBaseProductResForClothes<T> extends  GetBaseProductResponse {
-    private T feature_one;
+public class GetBaseProductResForClothes extends  GetBaseProductResponse {
+    private int  color_id;
 }
