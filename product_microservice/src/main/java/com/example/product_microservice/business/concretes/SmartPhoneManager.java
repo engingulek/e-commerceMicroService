@@ -8,8 +8,8 @@ import com.example.product_microservice.business.abstracts.SmartPhoneService;
 import com.example.product_microservice.core.results.Result;
 import com.example.product_microservice.core.results.SuccessDataResult;
 import com.example.product_microservice.dataAccess.SmartPhoneRepository;
-import com.example.product_microservice.dto.smartPhone.GetSmartPhoneDetailResponse;
 import com.example.product_microservice.entity.SmartPhone;
+import com.example.product_microservice.response.smartPhone.GetSmartPhoneDetailResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

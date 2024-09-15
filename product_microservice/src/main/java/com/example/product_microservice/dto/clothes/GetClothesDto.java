@@ -1,4 +1,4 @@
-package com.example.product_microservice.dto;
+package com.example.product_microservice.dto.clothes;
 
 import java.math.BigDecimal;
 import java.util.List;

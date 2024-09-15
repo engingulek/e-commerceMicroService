@@ -1,4 +1,4 @@
-package com.example.product_microservice.dto.baseProduct;
+package com.example.product_microservice.response.base;
 
 
 import java.math.BigDecimal;

@@ -1,12 +1,14 @@
-package com.example.product_microservice.dto.baseProduct.generics;
+package com.example.product_microservice.response.base.generics;
 
-import com.example.product_microservice.dto.baseProduct.GetBaseProductResponse;
+import com.example.product_microservice.response.base.GetBaseProductResponse;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetBaseProductResForElec<T,Y> extends GetBaseProductResponse {

@@ -1,8 +1,8 @@
-package com.example.product_microservice.dto.smartPhone;
+package com.example.product_microservice.response.smartPhone;
 
 
 
-import com.example.product_microservice.dto.baseProduct.GetBaseProductDetailResponse;
+import com.example.product_microservice.response.base.GetBaseProductDetailResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

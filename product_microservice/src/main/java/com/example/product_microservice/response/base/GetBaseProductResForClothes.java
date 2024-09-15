@@ -1,12 +1,12 @@
-package com.example.product_microservice.dto.baseProduct.generics;
-
-import com.example.product_microservice.dto.baseProduct.GetBaseProductResponse;
+package com.example.product_microservice.response.base;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetBaseProductResForClothes extends  GetBaseProductResponse {
