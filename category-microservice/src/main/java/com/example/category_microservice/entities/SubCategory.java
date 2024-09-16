@@ -28,6 +28,9 @@ public class SubCategory {
     @Column(name = "name",length = 25, nullable = true)
     private String name;
 
+    @Column(name="icon")
+    private String icon;
+
     @ManyToOne
     @JoinColumn(name = "category_id",nullable = true)
     private Category category;

@@ -30,6 +30,9 @@ public class Category {
     @Column(name = "name", length = 25, nullable = true)
     private String name;
 
+    @Column(name="icon")
+    private String icon;
+    
     @OneToMany(mappedBy =  "category")
     List<SubCategory> subCategories;
     
