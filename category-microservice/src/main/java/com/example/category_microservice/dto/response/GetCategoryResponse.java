@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 public class GetCategoryResponse {
     private int id;
     private  String name;
+    private String icon;
     private List<GetSubCategoryResponse> subCategories;
 }
