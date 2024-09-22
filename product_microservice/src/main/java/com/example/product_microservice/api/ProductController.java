@@ -29,14 +29,6 @@ public class ProductController {
     @Autowired
     private LaptopService laptopService;
 
-    @GetMapping("/getElectAll")
-    public ResponseEntity<Result> getAll() {
-        return  ResponseEntity
-        .ok(new SuccessDataResult<>(
-            productService.getElecAll(),
-            true, "fetch successful")) ;
-    }
-
     @GetMapping("/getSmartPhones")
     public ResponseEntity<Result> getSmartPhonesBaseResponse(){
         return  ResponseEntity
@@ -52,14 +44,6 @@ public class ProductController {
             productService.getLaptops(),
             true, "fetch successful")) ;
         
-    }
-
-    @GetMapping("/getClothesAll")
-    public ResponseEntity<Result> getClothesAll() {
-        return  ResponseEntity
-        .ok(new SuccessDataResult<>(
-            productService.getClothesAll(),
-            true, "fetch successful")) ;
     }
 
     @GetMapping("/getThirsts")
@@ -84,6 +68,14 @@ public class ProductController {
     @GetMapping("/getLaptopDetail")
     public ResponseEntity<Result> getLaptopDetail(@RequestParam int id , @RequestParam int product_id){
         return laptopService.getLaptopDetail(product_id, id);
+    }
+
+    @GetMapping("/searchProduct")
+    public ResponseEntity<Result> searchProduct(@RequestParam String searchText){
+        return  ResponseEntity
+        .ok(new SuccessDataResult<>(
+            productService.searchText(searchText),
+            true, "fetch successful")) ;
     }
 
     
