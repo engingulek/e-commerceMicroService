@@ -2,7 +2,6 @@ package com.example.product_microservice.business.concretes;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -109,6 +108,7 @@ public class ProductManager implements ProductService {
         return list;
     }
 
+
     // MARK: getThirsts
     @Override
     public List<GetBaseProductResponse> getThirsts() {
@@ -133,61 +133,6 @@ public class ProductManager implements ProductService {
         return list;
     }
 
-    
-    private List<GetBaseProductResponse> searchForElec(String searchText) {
-        
-        List<Product> products = productRepository.findByNameContainingIgnoreCase(searchText);
 
-        List<GetBaseProductResponse> list = products.stream().flatMap(product -> {
-
-            GetBaseProductResponse getBaseProductResponse = modelMapperService
-                    .forResponse().map(product, GetBaseProductResponse.class);
-
-            return product.getSmartPhones().stream().map(subProduct -> {
-
-                GetBaseProductResForElec<MemorySize, Color> newResponse = new GetBaseProductResForElec<>();
-                newResponse.setId(getBaseProductResponse.getId());
-                newResponse.setImageurl(getBaseProductResponse.getImageurl());
-
-                GetSmartPhonesResponse getSubProductResponse = modelMapperService.forResponse()
-                        .map(subProduct, GetSmartPhonesResponse.class);
-                newResponse.setPrice(getSubProductResponse.getPrice());
-                newResponse.setFeature_one(getSubProductResponse.getMemorySize());
-                newResponse.setFeature_tow(getSubProductResponse.getColor());
-
-                String size = getSubProductResponse.getMemorySize().getSize() + "GB";
-                if ("1000".equals(getSubProductResponse.getMemorySize().getSize())) {
-                    size = "1TB";
-                }
-                String name = getBaseProductResponse.getName() + " " + size + " "
-                        + getSubProductResponse.getColor().getName();
-                newResponse.setName(name);
-
-                return newResponse;
-            });
-        }).collect(Collectors.toList());
-        return  list;
-    }
-
-    
-    private List<GetBaseProductResponse> searchForClothes(String searchText) {
-        List<GetClothesDto> products = productRepository.findByNameContainingIgnoreCaseForClothes(searchText);
-        List<GetBaseProductResponse> list = products.stream()
-                .map(a -> this.modelMapperService.forResponse()
-                        .map(a, GetBaseProductResForClothes.class))
-                .collect(Collectors.toList());
-        return list;
-    }
-
-    @Override
-    public List<GetBaseProductResponse> searchText(String searchText) {
-        List<GetBaseProductResponse> searchResultForElec = searchForElec(searchText);
-        List<GetBaseProductResponse> searchResultForClothes = searchForClothes(searchText);
-        List<GetBaseProductResponse> allProduct = Stream
-                .concat(searchResultForElec.stream(), searchResultForClothes.stream())
-                .collect(Collectors.toList());
-        return  allProduct;
-        
-    }
 
 }

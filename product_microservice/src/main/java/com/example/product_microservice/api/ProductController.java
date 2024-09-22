@@ -70,13 +70,7 @@ public class ProductController {
         return laptopService.getLaptopDetail(product_id, id);
     }
 
-    @GetMapping("/searchProduct")
-    public ResponseEntity<Result> searchProduct(@RequestParam String searchText){
-        return  ResponseEntity
-        .ok(new SuccessDataResult<>(
-            productService.searchText(searchText),
-            true, "fetch successful")) ;
-    }
+  
 
     
 }
