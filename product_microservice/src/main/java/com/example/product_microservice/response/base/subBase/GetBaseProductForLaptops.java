@@ -1,4 +1,4 @@
-package com.example.product_microservice.response.base.generics;
+package com.example.product_microservice.response.base.subBase;
 
 import com.example.product_microservice.response.base.GetBaseProductResponse;
 
@@ -11,7 +11,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetBaseProductResForElec<T,Y> extends GetBaseProductResponse {
-    private T feature_one;
-    private Y feature_tow;
+public class GetBaseProductForLaptops extends GetBaseProductResponse {
+    private int memory_size_id;
+    private int ram_capacity;
+    
 }

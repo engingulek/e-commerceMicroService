@@ -1,4 +1,6 @@
-package com.example.product_microservice.response.base;
+package com.example.product_microservice.response.base.subBase;
+
+import com.example.product_microservice.response.base.GetBaseProductResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
