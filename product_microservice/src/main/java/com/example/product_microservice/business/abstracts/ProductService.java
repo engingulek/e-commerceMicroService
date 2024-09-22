@@ -9,5 +9,4 @@ public interface  ProductService {
      List<GetBaseProductResponse> getLaptops();
      List<GetBaseProductResponse> getThirsts();
      List<GetBaseProductResponse> getJumpers();
-     List<GetBaseProductResponse> searchText(String searchText );
 }
