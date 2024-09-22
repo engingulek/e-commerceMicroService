@@ -5,10 +5,9 @@ import java.util.List;
 import com.example.product_microservice.response.base.GetBaseProductResponse;
 
 public interface  ProductService {
-     List<GetBaseProductResponse> getElecAll();
      List<GetBaseProductResponse> getSmartPhonesBaseResponse();
      List<GetBaseProductResponse> getLaptops();
      List<GetBaseProductResponse> getThirsts();
      List<GetBaseProductResponse> getJumpers();
-     List<GetBaseProductResponse> getClothesAll();
+     List<GetBaseProductResponse> searchText(String searchText );
 }

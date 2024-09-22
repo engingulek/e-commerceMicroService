@@ -109,19 +109,6 @@ public class ProductManager implements ProductService {
         return list;
     }
 
-    // MARK: getElecAll
-    @Override
-    public List<GetBaseProductResponse> getElecAll() {
-        List<GetBaseProductResponse> smartPhoneList = getSmartPhonesBaseResponse();
-        List<GetBaseProductResponse> laptops = getLaptops();
-
-        List<GetBaseProductResponse> allProduct = Stream
-                .concat(smartPhoneList.stream(), laptops.stream())
-                .collect(Collectors.toList());
-
-        return allProduct;
-    }
-
     // MARK: getThirsts
     @Override
     public List<GetBaseProductResponse> getThirsts() {
@@ -146,18 +133,61 @@ public class ProductManager implements ProductService {
         return list;
     }
 
-    // MARK: getClothesAll
-    @Override
-    public List<GetBaseProductResponse> getClothesAll() {
+    
+    private List<GetBaseProductResponse> searchForElec(String searchText) {
+        
+        List<Product> products = productRepository.findByNameContainingIgnoreCase(searchText);
 
-        List<GetBaseProductResponse> tshirtList = getThirsts();
-        List<GetBaseProductResponse> jumperList = getJumpers();
+        List<GetBaseProductResponse> list = products.stream().flatMap(product -> {
 
-        List<GetBaseProductResponse> allProduct = Stream
-                .concat(tshirtList.stream(), jumperList.stream())
+            GetBaseProductResponse getBaseProductResponse = modelMapperService
+                    .forResponse().map(product, GetBaseProductResponse.class);
+
+            return product.getSmartPhones().stream().map(subProduct -> {
+
+                GetBaseProductResForElec<MemorySize, Color> newResponse = new GetBaseProductResForElec<>();
+                newResponse.setId(getBaseProductResponse.getId());
+                newResponse.setImageurl(getBaseProductResponse.getImageurl());
+
+                GetSmartPhonesResponse getSubProductResponse = modelMapperService.forResponse()
+                        .map(subProduct, GetSmartPhonesResponse.class);
+                newResponse.setPrice(getSubProductResponse.getPrice());
+                newResponse.setFeature_one(getSubProductResponse.getMemorySize());
+                newResponse.setFeature_tow(getSubProductResponse.getColor());
+
+                String size = getSubProductResponse.getMemorySize().getSize() + "GB";
+                if ("1000".equals(getSubProductResponse.getMemorySize().getSize())) {
+                    size = "1TB";
+                }
+                String name = getBaseProductResponse.getName() + " " + size + " "
+                        + getSubProductResponse.getColor().getName();
+                newResponse.setName(name);
+
+                return newResponse;
+            });
+        }).collect(Collectors.toList());
+        return  list;
+    }
+
+    
+    private List<GetBaseProductResponse> searchForClothes(String searchText) {
+        List<GetClothesDto> products = productRepository.findByNameContainingIgnoreCaseForClothes(searchText);
+        List<GetBaseProductResponse> list = products.stream()
+                .map(a -> this.modelMapperService.forResponse()
+                        .map(a, GetBaseProductResForClothes.class))
                 .collect(Collectors.toList());
+        return list;
+    }
 
-        return allProduct;
+    @Override
+    public List<GetBaseProductResponse> searchText(String searchText) {
+        List<GetBaseProductResponse> searchResultForElec = searchForElec(searchText);
+        List<GetBaseProductResponse> searchResultForClothes = searchForClothes(searchText);
+        List<GetBaseProductResponse> allProduct = Stream
+                .concat(searchResultForElec.stream(), searchResultForClothes.stream())
+                .collect(Collectors.toList());
+        return  allProduct;
+        
     }
 
 }
