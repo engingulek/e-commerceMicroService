@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 
 public class GetBaseProductResponse {
     private int id;
+    private int product_id;
     private List<String> imageurl;
     private String name;
     private BigDecimal price;

@@ -12,9 +12,6 @@ import com.example.product_microservice.dataAccess.ProductRepository;
 import com.example.product_microservice.dto.clothes.GetClothesDto;
 import com.example.product_microservice.entity.Product;
 import com.example.product_microservice.response.base.GetBaseProductResponse;
-import com.example.product_microservice.response.base.subBase.GetBaseProductForLaptops;
-import com.example.product_microservice.response.base.subBase.GetBaseProductResForClothes;
-import com.example.product_microservice.response.base.subBase.GetBaseProductResForSmartPhone;
 import com.example.product_microservice.response.laptop.GetLaptopResponse;
 import com.example.product_microservice.response.smartPhone.GetSmartPhonesResponse;
 
@@ -43,16 +40,14 @@ public class ProductManager implements ProductService {
 
             return product.getSmartPhones().stream().map(subProduct -> {
 
-               GetBaseProductResForSmartPhone newResponse = new GetBaseProductResForSmartPhone();
+                GetBaseProductResponse newResponse = new GetBaseProductResponse();
                 newResponse.setId(getBaseProductResponse.getId());
                 newResponse.setImageurl(getBaseProductResponse.getImageurl());
-
+                newResponse.setProduct_id(subProduct.getId());
                 GetSmartPhonesResponse getSubProductResponse = modelMapperService.forResponse()
                         .map(subProduct, GetSmartPhonesResponse.class);
                 newResponse.setPrice(getSubProductResponse.getPrice());
-                newResponse.setMemory_size_id(getSubProductResponse.getMemorySize().getId());
-                newResponse.setColor_id(getSubProductResponse.getColor().getId());
-
+                
                 String size = getSubProductResponse.getMemorySize().getSize() + "GB";
                 if ("1000".equals(getSubProductResponse.getMemorySize().getSize())) {
                     size = "1TB";
@@ -80,10 +75,10 @@ public class ProductManager implements ProductService {
 
             return product.getLaptops().stream().map(subProduct -> {
 
-                GetBaseProductForLaptops newResponse = new GetBaseProductForLaptops();
+                GetBaseProductResponse newResponse = new GetBaseProductResponse();
                 newResponse.setId(getBaseProductResponse.getId());
                 newResponse.setImageurl(getBaseProductResponse.getImageurl());
-
+                newResponse.setProduct_id(subProduct.getId());
                 GetLaptopResponse getLaptopResponse = modelMapperService.forResponse()
                         .map(subProduct, GetLaptopResponse.class);
                 newResponse.setPrice(getLaptopResponse.getPrice());
@@ -96,9 +91,6 @@ public class ProductManager implements ProductService {
                         getLaptopResponse.getRam_capacity() + "RAM " +
                         getLaptopResponse.getOperating_system();
                 newResponse.setName(name);
-                newResponse.setMemory_size_id(getLaptopResponse.getMemorySize().getId());
-
-                newResponse.setRam_capacity(getLaptopResponse.getRam_capacity());
 
                 return newResponse;
             });
@@ -115,7 +107,7 @@ public class ProductManager implements ProductService {
 
         List<GetBaseProductResponse> list = products.stream()
                 .map(a -> this.modelMapperService.forResponse()
-                        .map(a, GetBaseProductResForClothes.class))
+                        .map(a, GetBaseProductResponse.class))
                 .collect(Collectors.toList());
 
         return list;
@@ -127,7 +119,7 @@ public class ProductManager implements ProductService {
         List<GetClothesDto> products = productRepository.findBySubCategoryIdForClothes(4);
         List<GetBaseProductResponse> list = products.stream()
                 .map(a -> this.modelMapperService.forResponse()
-                        .map(a, GetBaseProductResForClothes.class))
+                        .map(a, GetBaseProductResponse.class))
                 .collect(Collectors.toList());
         return list;
     }
