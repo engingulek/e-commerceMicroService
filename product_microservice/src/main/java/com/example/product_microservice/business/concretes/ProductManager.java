@@ -8,9 +8,14 @@ import org.springframework.stereotype.Service;
 
 import com.example.product_microservice.business.abstracts.ProductService;
 import com.example.product_microservice.core.mapper.ModelMapperService;
+import com.example.product_microservice.dataAccess.ColorRepository;
+import com.example.product_microservice.dataAccess.MemorySizeRepository;
 import com.example.product_microservice.dataAccess.ProductRepository;
 import com.example.product_microservice.dto.clothes.GetClothesDto;
+import com.example.product_microservice.entity.Color;
+import com.example.product_microservice.entity.MemorySize;
 import com.example.product_microservice.entity.Product;
+import com.example.product_microservice.response.base.GetBaseFeatureResponse;
 import com.example.product_microservice.response.base.GetBaseProductResponse;
 import com.example.product_microservice.response.laptop.GetLaptopResponse;
 import com.example.product_microservice.response.smartPhone.GetSmartPhonesResponse;
@@ -26,6 +31,12 @@ public class ProductManager implements ProductService {
     private ProductRepository productRepository;
     @Autowired
     private ModelMapperService modelMapperService;
+
+    @Autowired 
+    private MemorySizeRepository memorySizeRepository;
+
+    @Autowired
+    private ColorRepository colorRepository;
 
     // MARK: GetSmartPhonesBaseResponse
     @Override
@@ -121,6 +132,24 @@ public class ProductManager implements ProductService {
                 .map(a -> this.modelMapperService.forResponse()
                         .map(a, GetBaseProductResponse.class))
                 .collect(Collectors.toList());
+        return list;
+    }
+
+    @Override
+    public List<MemorySize> getAllMemorySize() {
+        List<MemorySize> memorySizes = memorySizeRepository.findAll();
+       
+      
+        return memorySizes;
+    }
+
+    @Override
+    public List<GetBaseFeatureResponse> getAllColor() {
+        List<Color> colors = colorRepository.findAll();
+        List<GetBaseFeatureResponse> list = colors.stream()
+        .map(a-> this.modelMapperService.forResponse()
+        .map(a, GetBaseFeatureResponse.class))
+        .collect(Collectors.toList());
         return list;
     }
 

@@ -29,6 +29,8 @@ public class ProductController {
     @Autowired
     private LaptopService laptopService;
 
+  
+
     @GetMapping("/getSmartPhones")
     public ResponseEntity<Result> getSmartPhonesBaseResponse(){
         return  ResponseEntity
@@ -70,6 +72,20 @@ public class ProductController {
         return laptopService.getLaptopDetail(product_id, id);
     }
 
+
+    @GetMapping("/getMemorySizes")
+    public ResponseEntity<Result> getAllMemorySize(){
+        return  ResponseEntity.ok(
+            new SuccessDataResult<>(
+            productService.getAllMemorySize() ,true, "fetchSuccess ful"));
+    }
+
+    @GetMapping("/getColors")
+    public ResponseEntity<Result> getAllColor(){
+        return  ResponseEntity.ok(
+            new SuccessDataResult<>(
+            productService.getAllColor() ,true, "fetchSuccess ful"));
+    }
   
 
     
